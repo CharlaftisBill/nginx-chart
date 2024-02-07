@@ -42,3 +42,34 @@ So today our options for an open source self-hosted `registry` that can store bo
 * `GitLab` is still an option but now you can use instead `GitLab Container Registry`. Same benefits as before but also same problems for **Development environments**
 
 * `Gitea` is a `GitLab` alternative that it is completely open source (no paid version) and has also a `Gitea Container Registry`. Same positives and same issues as `GitLab`.
+
+## Push a helm chart to `Docker registry`
+
+1. Clone a repo that contains a helm chart uncompressed:
+
+```bash
+$ git clone https://github.com/CharlaftisBill/nginx-chart.git
+
+$ cd ./nginx-chart
+$ helm package .
+```
+
+2. This repo also contains a `compose.yml` that runs a `Docker registry` and web UI to manage the registry:
+   
+```bash 
+$ docker compose up -d
+```
+The registry is accessible at **localhost:8082** and the **localhost:8081**
+
+3. The registry has no auth set up so we can just push the chart:
+
+```bash
+$ helm push nginx-charts-0.0.1.tgz oci://localhost:8082
+```
+
+4. In browser we can see that:
+
+![image](images/image.png)
+
+
+
